@@ -60,6 +60,7 @@ class RaspiRobot extends ws_robot.WPILibWSRobotBase {
     }
 
     setPWMValue(channel: number, value: number) {
+        console.log("channel " + channel + ", value " + value)
     }
 
     registerEncoder(encoderChannel: number, chA: number, chB: number) {
