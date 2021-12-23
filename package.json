@@ -8,11 +8,11 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "wpilib-ws-robot": "^0.0.7"
-  },
   "devDependencies": {
     "@types/node": "^17.0.2",
     "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@wpilib/wpilib-ws-robot": "^1.2.1"
   }
 }
