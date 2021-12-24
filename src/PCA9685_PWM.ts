@@ -121,5 +121,5 @@ export class PCA9685_PWM {
 }
 
 export interface I2CBus {
-    i2cWrite(register: number, data: number): null
+    i2cWrite(register: number, data: number): void
 }
