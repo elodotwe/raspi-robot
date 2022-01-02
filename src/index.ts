@@ -1,8 +1,21 @@
 // import {DigitalChannelMode} from "wpilib-ws-robot";
 
 import {DigitalChannelMode, RobotAccelerometer, RobotGyro, SimDevice} from "@wpilib/wpilib-ws-robot";
+import {PCA9685_PWM, I2CBus} from "./PCA9685_PWM"
 
 var ws_robot = require("@wpilib/wpilib-ws-robot")
+
+class RaspiI2c implements I2CBus {
+	i2cWrite(register: number, data: number): void {
+		console.log("i2c write in raspii2c: " + register + ": " + data)
+	}
+}
+
+var i2c = new RaspiI2c()
+
+var pwm = new PCA9685_PWM(i2c)
+pwm.initialize()
+
 
 class RaspiRobot extends ws_robot.WPILibWSRobotBase {
 
@@ -61,6 +74,8 @@ class RaspiRobot extends ws_robot.WPILibWSRobotBase {
 
     setPWMValue(channel: number, value: number) {
         console.log("channel " + channel + ", value " + value)
+	let normalized = (value - 127.5) / 127.5
+	pwm.setPWM(channel, normalized)
     }
 
     registerEncoder(encoderChannel: number, chA: number, chB: number) {
@@ -91,10 +106,14 @@ class RaspiRobot extends ws_robot.WPILibWSRobotBase {
 
     onRobotDisabled() {
         super.onRobotDisabled();
+	pwm.disable()
+	console.log("onRobotDisabled")
     }
 
     onRobotEnabled() {
         super.onRobotEnabled();
+	pwm.enable()
+	console.log("onRobotEnabled")
     }
 
     onDSPacketTimeoutOccurred() {
