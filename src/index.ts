@@ -2,12 +2,15 @@
 
 import {DigitalChannelMode, RobotAccelerometer, RobotGyro, SimDevice} from "@wpilib/wpilib-ws-robot";
 import {PCA9685_PWM, I2CBus} from "./PCA9685_PWM"
+var i2cbus = require('i2c-bus')
+var i2c1 = i2cbus.openSync(1)
 
 var ws_robot = require("@wpilib/wpilib-ws-robot")
 
 class RaspiI2c implements I2CBus {
 	i2cWrite(register: number, data: number): void {
 		console.log("i2c write in raspii2c: " + register + ": " + data)
+		i2c1.writeByteSync(0x40, register, data)
 	}
 }
 
